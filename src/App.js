@@ -28,12 +28,24 @@ class App extends Component {
   render() {
     const { todos } = this.state;
 
+    const totalTodoCount = todos.length;
+    const completedTodoCount = todos.reduce(
+      (total, todo) => (todo.completed ? total + 1 : total),
+      0
+    );
+    // const completedTodos = todos.filter((todo) => todo.completed);
+    // console.log(completedTodoCount);
+
     return (
       <>
         <h1>Состояние компонентов</h1>
         <Counter initialValue={0} />
         <Dropdown />
         <ColorPicker options={colorPickerOptions} />
+        <div>
+          <p>Общее кол-во туду: {totalTodoCount}</p>
+          <p>Кол-во выполненых туду: {completedTodoCount}</p>
+        </div>
 
         <TodoList todos={todos} onDeleteTodo={this.deleteTodo} />
       </>
