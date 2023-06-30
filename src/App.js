@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import Counter from "./components/Counter";
-import Dropdown from "./components/Dropdown";
+import Container from "components/Container/Container";
+// import Form from "components/Form";
+// import Counter from "./components/Counter";
+// import Dropdown from "./components/Dropdown";
 import ColorPicker from "./components/ColorPicker";
 import TodoList from "./components/TodoList";
 import initialTodos from "./todos.json";
@@ -25,6 +27,16 @@ class App extends Component {
     }));
   };
 
+  toggleCompleted = (todoId) => {
+    console.log(todoId);
+
+    this.setState((prevState) => ({}));
+  };
+
+  // formSubmitHandller = (data) => {
+  //   console.log(data);
+  // };
+
   render() {
     const { todos } = this.state;
 
@@ -33,22 +45,27 @@ class App extends Component {
       (total, todo) => (todo.completed ? total + 1 : total),
       0
     );
-    // const completedTodos = todos.filter((todo) => todo.completed);
-    // console.log(completedTodoCount);
+
+    const completedTodos = todos.filter((todo) => todo.completed);
+    console.log(completedTodoCount);
 
     return (
-      <>
-        <h1>Состояние компонентов</h1>
-        <Counter initialValue={0} />
-        <Dropdown />
+      <Container>
+        {/* <Form onSubmit={this.formSubmitHandller}/> */}
+        {/* <Counter initialValue={0} /> */}
+        {/* <Dropdown /> */}
         <ColorPicker options={colorPickerOptions} />
         <div>
-          <p>Общее кол-во туду: {totalTodoCount}</p>
-          <p>Кол-во выполненых туду: {completedTodoCount}</p>
+          <p>Summary notes: {totalTodoCount}</p>
+          <p>Completed notes: {completedTodoCount}</p>
         </div>
 
-        <TodoList todos={todos} onDeleteTodo={this.deleteTodo} />
-      </>
+        <TodoList
+          todos={todos}
+          onDeleteTodo={this.deleteTodo}
+          onToggleCompleted={this.toggleCompleted}
+        />
+      </Container>
     );
   }
 }
