@@ -1,5 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
+const products = ['Sweater', 'Keyboard', 'Sofa', 'Freezer'];
+
 const initialValues = {
   name: "",
   email: "",
@@ -18,23 +20,32 @@ export const InfoForm = () => {
   };
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      <Form>
+      <Form autoComplete="off">
         <div>
-          <label>
+          <label htmlFor="name">
+            Full name
             <Field type="text" name="name" />
             <ErrorMessage name="name" component="div" />
           </label>
         </div>
         <div>
-          <label>
+          <label htmlFor="email">
+            Email address
             <Field type="email" name="email" />
             <ErrorMessage name="email" component="div" />
           </label>
         </div>
         <div>
-          <label>
-            <select name="" id=""></select>
-          </label>
+          <label htmlFor="product">Product</label>
+          <div>
+            <Field name="product" as="select">
+              <option value="">Select a product</option>
+              {products.map((product, idx)=>(
+                <option value={product} key={idx}>{product}</option>
+              ))}
+            </Field>
+            <ErrorMessage name="product"/>
+          </div>
         </div>
       </Form>
     </Formik>

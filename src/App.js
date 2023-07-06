@@ -10,6 +10,7 @@ import initialTodos from "./todos.json";
 import TodoEditor from "./components/TodoEditor/TodoEditor";
 import Filter from "./components/TodoFilter/TodoFilter";
 import {LoginForm} from './components/LoginForm/LoginForm';
+import {InfoForm} from './components/TestForm/TestForm'
 
 // const colorPickerOptions = [
 //   { label: "red", color: "#F44336" },
@@ -127,6 +128,7 @@ class App extends Component {
           onToggleCompleted={this.toggleCompleted}
         />
          <LoginForm />
+         <InfoForm />
       </Container>
      
     );
