@@ -127,8 +127,8 @@ class App extends Component {
           onDeleteTodo={this.deleteTodo}
           onToggleCompleted={this.toggleCompleted}
         />
-         <LoginForm />
-         <InfoForm />
+         {/* <LoginForm />
+         <InfoForm /> */}
       </Container>
      
     );
