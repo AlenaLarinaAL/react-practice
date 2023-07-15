@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import shortid from "shortid";
 import Container from "components/Container/Container";
 // import Form from "components/Form";
-// import Counter from "./components/Counter";
+import Counter from "./components/Counter";
 // import Dropdown from "./components/Dropdown";
 // import ColorPicker from "./components/ColorPicker";
 import TodoList from "./components/TodoList";
 import initialTodos from "./todos.json";
 import TodoEditor from "./components/TodoEditor/TodoEditor";
 import Filter from "./components/TodoFilter/TodoFilter";
-import {LoginForm} from './components/LoginForm/LoginForm';
-import {InfoForm} from './components/TestForm/TestForm'
+import { LoginForm } from "./components/LoginForm/LoginForm";
+import { InfoForm } from "./components/TestForm/TestForm";
 
 // const colorPickerOptions = [
 //   { label: "red", color: "#F44336" },
@@ -73,8 +73,6 @@ class App extends Component {
     this.setState({ filter: event.currentTarget.value });
   };
 
-
-
   getCompletedTodoCount = () => {
     const { todos } = this.state;
 
@@ -88,7 +86,6 @@ class App extends Component {
     const { filter, todos } = this.state;
 
     const normalizedFilter = filter.toLowerCase();
-  
 
     return todos.filter((todo) =>
       todo.text.toLowerCase().includes(normalizedFilter)
@@ -109,7 +106,7 @@ class App extends Component {
     return (
       <Container>
         {/* <Form onSubmit={this.formSubmitHandller}/> */}
-        {/* <Counter initialValue={0} /> */}
+        <Counter initialValue={0} />
         {/* <Dropdown /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}
 
@@ -127,10 +124,9 @@ class App extends Component {
           onDeleteTodo={this.deleteTodo}
           onToggleCompleted={this.toggleCompleted}
         />
-         {/* <LoginForm />
+        {/* <LoginForm />
          <InfoForm /> */}
       </Container>
-     
     );
   }
 }
