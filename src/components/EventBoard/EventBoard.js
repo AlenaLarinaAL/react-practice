@@ -31,6 +31,6 @@ EventBoard.propTypes = {
         start: PropTypes.string.isRequired,
         end: PropTypes.string.isRequired,
       }),
-    }),
+    })
   ),
 };
