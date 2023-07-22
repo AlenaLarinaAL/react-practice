@@ -1,36 +1,43 @@
-import React, { Component } from "react";
-import shortid from "shortid";
-import Container from "components/Container/Container";
-// import Form from "components/Form";
-import Counter from "./components/Counter";
-// import Dropdown from "./components/Dropdown";
-// import ColorPicker from "./components/ColorPicker";
-import TodoList from "./components/TodoList";
-import initialTodos from "./todos.json";
-import TodoEditor from "./components/TodoEditor/TodoEditor";
-import Filter from "./components/TodoFilter/TodoFilter";
-import { LoginForm } from "./components/LoginForm/LoginForm";
-import { InfoForm } from "./components/TestForm/TestForm";
+import React, { Component } from 'react';
+import shortid from 'shortid';
+import Container from 'components/Container/Container';
+import Modal from 'components/Modal/Modal';
 
-// const colorPickerOptions = [
-//   { label: "red", color: "#F44336" },
-//   { label: "green", color: "#4CAF50" },
-//   { label: "blue", color: "#2196F3" },
-//   { label: "grey", color: "#607D8B" },
-//   { label: "pink", color: "#E91E63" },
-//   { label: "indigo", color: "#3F51B5" },
-// ];
+import TodoList from './components/TodoList';
+import TodoEditor from './components/TodoEditor';
+import Filter from './components/TodoFilter/TodoFilter';
+import Tabs from 'components/Tabs/Tabs';
+import tabs from './components/Tabs/tabs.json';
+
+// import Clock from './components/Clock/Clock';
+
+// import initialTodos from './todos.json';
 
 class App extends Component {
   state = {
-    todos: initialTodos,
-
-    filter: "",
+    todos: [],
+    filter: '',
+    showModal: false,
   };
 
-  addTodo = (text) => {
+  componentDidMount() {
+    const todos = localStorage.getItem('todos');
+    const parsedTodos = JSON.parse(todos);
+
+    if (parsedTodos) {
+      this.setState({ todos: parsedTodos });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.todos !== this.state.todos) {
+      localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    }
+  }
+
+  addTodo = text => {
     const todo = {
-      id: shortid.generate(),
+      id: shortid.generate(5),
       text,
       completed: false,
     };
@@ -38,38 +45,23 @@ class App extends Component {
     this.setState(({ todos }) => ({ todos: [todo, ...todos] }));
   };
 
-  deleteTodo = (todoId) => {
-    this.setState((prevState) => ({
-      todos: prevState.todos.filter((todo) => todo.id !== todoId),
+  deleteTodo = todoId => {
+    this.setState(prevState => ({
+      todos: prevState.todos.filter(todo => todo.id !== todoId),
     }));
   };
 
-  toggleCompleted = (todoId) => {
+  toggleCompleted = todoId => {
     console.log(todoId);
 
-    // this.setState((prevState) => ({
-    //   todos: prevState.todos.map((todo) => {
-    //     if (todo.id === todoId) {
-    //       return {
-    //         ...todo,
-    //         completed: !todo.completed,
-    //       };
-    //     }
-
-    //     return todo;
-    //   }),
-    // }));
-
-    // тоже самое тернарником
-
     this.setState(({ todos }) => ({
-      todos: todos.map((todo) =>
+      todos: todos.map(todo =>
         todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
       ),
     }));
   };
 
-  changeFilter = (event) => {
+  changeFilter = event => {
     this.setState({ filter: event.currentTarget.value });
   };
 
@@ -87,30 +79,50 @@ class App extends Component {
 
     const normalizedFilter = filter.toLowerCase();
 
-    return todos.filter((todo) =>
+    return todos.filter(todo =>
       todo.text.toLowerCase().includes(normalizedFilter)
     );
   };
 
+  toggleModal = () => {
+    this.setState(state => ({
+      showModal: !state.showModal,
+    }));
+  };
+
   render() {
-    const { todos, filter } = this.state;
+    const { todos, filter, showModal } = this.state;
 
     const totalTodoCount = todos.length;
     const completedTodoCount = this.getCompletedTodoCount();
 
     const visibleTodos = this.getVisibleTodos();
 
-    // const completedTodos = todos.filter((todo) => todo.completed);
-    // console.log(completedTodoCount);
-
     return (
       <Container>
-        {/* <Form onSubmit={this.formSubmitHandller}/> */}
-        <Counter initialValue={0} />
-        {/* <Dropdown /> */}
-        {/* <ColorPicker options={colorPickerOptions} /> */}
+        <button type="button" onClick={this.toggleModal}>
+          show modal
+        </button>
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <h1>This is modals content</h1>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio rem
+              perferendis illo, magnam eligendi delectus aut inventore repellat
+              iste culpa nulla fugit doloremque odit quos ex. Autem tempora sint
+              velit? Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Nostrum facere fugiat ipsum commodi temporibus quaerat accusamus
+              modi quasi.
+            </p>
+            <button type="button" onClick={this.toggleModal}>
+              close modal
+            </button>
+          </Modal>
+        )}
 
-        <div>
+        <Tabs tabs={tabs}></Tabs>
+
+        {/* <div>
           <p>Summary notes: {totalTodoCount}</p>
           <p>Completed notes: {completedTodoCount}</p>
         </div>
@@ -123,9 +135,7 @@ class App extends Component {
           todos={visibleTodos}
           onDeleteTodo={this.deleteTodo}
           onToggleCompleted={this.toggleCompleted}
-        />
-        {/* <LoginForm />
-         <InfoForm /> */}
+        /> */}
       </Container>
     );
   }
