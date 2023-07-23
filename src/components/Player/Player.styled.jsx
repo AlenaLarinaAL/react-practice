@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 
 export const PlayerWrapper = styled.div`
   position: relative;
-  padding-top: 56px;
+  padding-top: 56%;
 `;
 
 export const StyledPlayer = styled(ReactPlayer)`
