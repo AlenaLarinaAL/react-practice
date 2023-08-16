@@ -1,11 +1,15 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Suspense, useRef } from "react";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 
 const DogDetails = () => {
+  const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? "/dogs");
   const { dogId } = useParams();
-  console.log(dogId);
+
   return (
     <>
-      {dogId}
+      <h1>{dogId}</h1>
+      <Link to={backLinkLocationRef.current}>Back</Link>
       <ul>
         <li>
           <Link to="subbreads">Subbreads</Link>
@@ -14,7 +18,9 @@ const DogDetails = () => {
           <Link to="gallery">Gallery</Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

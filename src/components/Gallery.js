@@ -5,5 +5,4 @@ const Gallery = () => {
 
   return <div>Image Gallery: {dogId}</div>;
 };
-
 export default Gallery;
