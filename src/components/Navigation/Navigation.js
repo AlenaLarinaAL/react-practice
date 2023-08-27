@@ -9,7 +9,7 @@ export default function Navigation() {
           exact
           to="/"
           className={styles.link}
-          activeClassName={styles.activeLink}
+          // activeclassName={styles.activeLink}
         >
           Главная
         </NavLink>
@@ -17,9 +17,17 @@ export default function Navigation() {
         <NavLink
           to="/books"
           className={styles.link}
-          activeClassName={styles.activeLink}
+          // activeClassName={styles.activeLink}
         >
           Книги
+        </NavLink>
+
+        <NavLink
+          to="/todos"
+          className={styles.link}
+          // activeClassName={styles.activeLink}
+        >
+          Todo
         </NavLink>
       </nav>
     </>

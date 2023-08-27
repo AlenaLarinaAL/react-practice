@@ -1,5 +1,5 @@
-import { createReducer, combineReducers, createSlice } from '@reduxjs/toolkit';
-import { fetchBooks } from './booksOperations';
+import { createReducer, combineReducers } from "@reduxjs/toolkit";
+import { fetchBooks } from "./booksOperations";
 
 const entities = createReducer([], {
   [fetchBooks.fulfilled]: (_, action) => action.payload,
