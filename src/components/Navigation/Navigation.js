@@ -23,11 +23,19 @@ export default function Navigation() {
         </NavLink>
 
         <NavLink
-          to="/todos"
+          to="/contacts"
           className={styles.link}
           // activeClassName={styles.activeLink}
         >
-          Todo
+          Contacts
+        </NavLink>
+
+        <NavLink
+          to="/contacts/create"
+          className={styles.link}
+          // activeClassName={styles.activeLink}
+        >
+          NewContact
         </NavLink>
       </nav>
     </>
