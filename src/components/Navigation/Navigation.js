@@ -37,6 +37,13 @@ export default function Navigation() {
         >
           NewContact
         </NavLink>
+        <NavLink
+          to="/login"
+          className={styles.link}
+          // activeClassName={styles.activeLink}
+        >
+          Login
+        </NavLink>
       </nav>
     </>
   );
