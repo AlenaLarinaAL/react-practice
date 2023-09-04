@@ -1,27 +1,31 @@
-import { Route, Routes } from "react-router-dom";
-import { Layout } from "./components/Layout/Layout";
-import Home from "./pages/Home/Home";
-// import Books from "./pages/Books/Books";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import TodosView from "./views/TodosView";
 import HomeView from "./views/HomeView";
-import { Contacts } from "./pages/Contacts/Contacts";
-import { CreateContacts } from "./pages/CreateContacts/CreateContacts";
-import LoginPage from "./pages/LoginPage/LoginPage";
-// import BooksView from "./views/BooksView";
-// import BookDetailsView from "./views/BookDetailsView";
+import RegisterView from "./views/RegisterView";
+import LoginView from "./views/LoginView";
+import Container from "./components/Container";
+import { authOperations } from "./redux/auth";
+import { Layout } from "./components/Layout/Layout";
 
-export const App = () => {
+export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+  }, [dispatch]);
+
   return (
-    <>
+    <Container>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="books" element={<HomeView />} />
-          <Route path="contacts" element={<Contacts />} />
-          <Route path="/contacts/create" element={<CreateContacts />} />
-          <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="books/:slug" element={<BookDetailsView />} /> */}
+          <Route index element={<HomeView />} />
+          <Route path="register" element={<RegisterView />} />
+          <Route path="login" element={<LoginView />} />
+          <Route path="todos" element={<TodosView />} />
         </Route>
       </Routes>
-    </>
+    </Container>
   );
-};
+}

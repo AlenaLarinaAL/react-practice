@@ -1,22 +1,39 @@
-import { configureStore } from "@reduxjs/toolkit";
-import booksReducer from "./books/booksReducer";
-import { pokemonApi } from "./pokemon/pokemon";
-import { contactsApi } from "./contacts/contactsSlice";
-import { setupListeners } from "@reduxjs/toolkit/query";
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { todosReducer } from './todos';
+import { authReducer } from './auth';
+
+const middleware = [
+  ...getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
+];
+
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
+};
 
 export const store = configureStore({
   reducer: {
-    books: booksReducer,
-    // [pokemonApi.reducer]: pokemonApi.reducer,
-    [pokemonApi.reducerPath]: pokemonApi.reducer,
-    [contactsApi.reducerPath]: contactsApi.reducer,
+    auth: persistReducer(authPersistConfig, authReducer),
+    todos: todosReducer,
   },
-
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware(),
-    pokemonApi.middleware,
-    contactsApi.middleware,
-  ],
+  middleware,
+  devTools: process.env.NODE_ENV === 'development',
 });
 
-setupListeners(store.dispatch);
+export const persistor = persistStore(store);
